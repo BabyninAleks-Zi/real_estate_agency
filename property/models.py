@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 
 class Flat(models.Model):
@@ -53,5 +54,30 @@ class Flat(models.Model):
         blank=True,
         db_index=True)
 
+    class Meta:
+        verbose_name = 'Квартиру'
+        verbose_name_plural = 'Квартиры'
+
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
+
+class Complaint(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name='Кто жаловался'
+    )
+    flat = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        verbose_name='Квартира, на которую пожаловались'
+    )
+    text = models.TextField('Текст жалобы')
+    
+    class Meta:
+        verbose_name = 'Жалоба'
+        verbose_name_plural = 'Жалобы'
+
+    def __str__(self):
+        return f'{self.user}, {self.flat} ({self.text}р.)'
