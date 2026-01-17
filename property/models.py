@@ -53,6 +53,10 @@ class Flat(models.Model):
         null=True,
         blank=True,
         db_index=True)
+    likes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        verbose_name='Кто лайкнул')
 
     class Meta:
         verbose_name = 'Квартиру'
@@ -80,4 +84,4 @@ class Complaint(models.Model):
         verbose_name_plural = 'Жалобы'
 
     def __str__(self):
-        return f'{self.user}, {self.flat} ({self.text}р.)'
+        return f'Жалоба от {self.user} на {self.flat}'
