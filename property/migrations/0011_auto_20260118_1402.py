@@ -6,7 +6,7 @@ import phonenumbers
 
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.iterator(chunk_size=2000):
         if not flat.owners_phonenumber:
             continue
         try:
